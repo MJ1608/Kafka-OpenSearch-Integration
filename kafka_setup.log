@@ -1,0 +1,5 @@
+[2024-06-05 22:45:40,997] [INFO] [Starting ZooKeeper]
+[2024-06-05 22:45:56,015] [INFO] [Starting Kafka Server 0]
+[2024-06-05 22:46:11,038] [INFO] [Starting Kafka Server 1]
+[2024-06-05 22:46:26,050] [INFO] [Starting Kafka Server 2]
+[2024-06-05 22:46:41,070] [INFO] [Starting Kafka Producer]
