@@ -17,6 +17,7 @@ pipeline {
         
         stage('Linting') {
             steps {
+                sh 'chmod +x /home/mj/.local/bin/flake8'
                 sh 'pip install flake8'  // Install linting tools
                 sh '/home/mj/.local/bin/flake8 producer.py consumer.py'
                 
@@ -25,8 +26,7 @@ pipeline {
 
         stage('Deploy') {
             steps {
-                // Example deployment steps (e.g., Docker build/push, Kubernetes apply)
-                sh 'docker-compose up -d'  // Deploy using Docker Compose
+                sh 'docker-compose up -d'  
             }
         }
 
