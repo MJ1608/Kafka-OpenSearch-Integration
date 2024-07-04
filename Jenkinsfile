@@ -17,8 +17,6 @@ pipeline {
         
         stage('Linting') {
             steps {
-                sh 'chmod +x /home/mj/.local/bin/flake8'
-                sh 'pip install flake8'  // Install linting tools
                 sh '/home/mj/.local/bin/flake8 producer.py consumer.py'
                 
             }
