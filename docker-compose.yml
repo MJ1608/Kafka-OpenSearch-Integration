@@ -2,12 +2,12 @@ version: '3.7'
 
 services:
   zookeeper:
-    image: wurstmeister/zookeeper
+    image: mj65/zookeeper:latest
     ports:
       - "2181:2181"
 
   kafka1:
-    image: wurstmeister/kafka
+    image: mj65/kafka:broker1
     ports:
       - "9092:9092"
     environment:
@@ -20,7 +20,7 @@ services:
       KAFKA_DELETE_TOPIC_ENABLE: "false" # Disable topic deletion
 
   kafka2:
-    image: wurstmeister/kafka
+    image: mj65/kafka:broker2
     ports:
       - "9094:9094"
     environment:
@@ -33,7 +33,7 @@ services:
       KAFKA_DELETE_TOPIC_ENABLE: "false" # Disable topic deletion
 
   kafka3:
-    image: wurstmeister/kafka
+    image: mj65/kafka:broker3
     ports:
       - "9096:9096"
     environment:
@@ -46,7 +46,7 @@ services:
       KAFKA_DELETE_TOPIC_ENABLE: "false" # Disable topic deletion
 
   opensearch:
-    image: opensearchproject/opensearch:1.2.4
+    image: mj65/opensearch:1.2.4
     environment:
       discovery.type: single-node
       plugins.security.disabled: "true" # Disable security
@@ -56,9 +56,10 @@ services:
       - 9600:9600 # required for Performance Analyzer
 
   opensearch-dashboards:
-    image: opensearchproject/opensearch-dashboards:1.2.0
+    image: mj65/opensearch-dashboards:1.2.0
     ports:
       - 5601:5601
     environment:
       OPENSEARCH_HOSTS: '["http://opensearch:9200"]'
       DISABLE_SECURITY_DASHBOARDS_PLUGIN: "true"
+
