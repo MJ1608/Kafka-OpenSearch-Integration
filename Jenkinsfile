@@ -4,7 +4,7 @@ pipeline {
     stages {
         stage('Clone') {
             steps {
-                git 'https://github.com/MJ1608/Kafka-OpenSearch-Integration.git'
+                git branch: 'main', url: 'https://github.com/MJ1608/Kafka-OpenSearch-Integration.git'
             }
         }
         stage('Build') {
