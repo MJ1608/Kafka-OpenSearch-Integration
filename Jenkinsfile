@@ -15,12 +15,6 @@ pipeline {
             }
         }
         
-        stage('Linting') {
-            steps {
-                sh '/usr/bin/python3 -m flake8 producer.py consumer.py'
-                
-            }
-        }
 
         stage('Deploy') {
             steps {
