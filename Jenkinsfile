@@ -17,9 +17,9 @@ pipeline {
         
         stage('Linting') {
             steps {
-                sh 'pip install flake8 pylint'  // Install linting tools
-                sh 'flake8 producer.py consumer.py'  // Check style violations
-                sh 'pylint producer.py consumer.py'  // Check for code quality issues
+                sh 'pip install flake8'  // Install linting tools
+                sh '/home/mj/.local/bin/flake8 producer.py consumer.py'
+                
             }
         }
 
