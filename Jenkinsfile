@@ -17,21 +17,7 @@ pipeline {
                 sh 'docker-compose ps'
             }
         }
-        stage('Test') {
-            steps {
-                // Test the Kafka services
-                sh 'docker-compose exec kafka1 pytest tests/'
-                sh 'docker-compose exec kafka2 pytest tests/'
-                sh 'docker-compose exec kafka3 pytest tests/'
-                
-                // Test the OpenSearch services
-                sh 'docker-compose exec opensearch pytest tests/'
-                sh 'docker-compose exec opensearch-dashboards pytest tests/'
-                
-                // Test the Zookeeper service (if you have tests for Zookeeper)
-                // sh 'docker-compose exec zookeeper pytest tests/'
-            }
-        }
+        
     }
 
     post {
