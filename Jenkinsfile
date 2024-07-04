@@ -17,7 +17,7 @@ pipeline {
         
         stage('Linting') {
             steps {
-                sh '/home/mj/.local/bin/flake8 producer.py consumer.py'
+                sh '/usr/bin/python3 -m flake8 producer.py consumer.py'
                 
             }
         }
