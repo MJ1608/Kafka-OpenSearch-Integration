@@ -1,4 +1,4 @@
-confluent-kafka==1.8.0
+confluent-kafka>=1.9.2
 requests==2.26.0
 sseclient==0.0.27
 
