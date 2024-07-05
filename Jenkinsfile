@@ -19,7 +19,7 @@ pipeline {
 
                 // Wait for services to initialize (adjust time based on your project's startup time)
                 script {
-                    sleep 400  // Wait for 5 minutes (adjust as necessary)
+                    sleep 300  // Wait for 5 minutes (adjust as necessary)
                 }
             }
         }
@@ -35,7 +35,7 @@ pipeline {
 
                 // Check if Kafka topic is created
                 script {
-                    def topicCreated = sh(script: "docker exec -i kafka1 kafka-topics.sh --list --bootstrap-server localhost:9092 | grep -Fx 'wiki'", returnStatus: true)
+                    def topicCreated = sh(script: "docker exec -i firstbuild-kafka1-1 kafka-topics.sh --list --bootstrap-server localhost:9092 | grep -Fx 'wiki'", returnStatus: true)
                     if (topicCreated == 0) {
                         echo 'Kafka topic "wiki" is created.'
                     } else {
