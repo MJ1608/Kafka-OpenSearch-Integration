@@ -19,7 +19,7 @@ pipeline {
 
                 // Wait for services to initialize (adjust time based on your project's startup time)
                 script {
-                    sleep 300  // Wait for 5 minutes (adjust as necessary)
+                    sleep 400  // Wait for 5 minutes (adjust as necessary)
                 }
             }
         }
@@ -27,10 +27,13 @@ pipeline {
 
         stage('Run Producer') {
             steps {
-                // Run the Python producer script
-                sh 'python3 producer.py'
+                // Run the Python producer script in background and capture PID
+                script {
+                    def producerProcess = sh(script: 'python3 producer.py & echo $!', returnStdout: true).trim()
+                    env.PRODUCER_PID = producerProcess
+                }
 
-                // Check if Kafka topic is created (example check)
+                // Check if Kafka topic is created
                 script {
                     def topicCreated = sh(script: "docker exec -i kafka1 kafka-topics.sh --list --bootstrap-server localhost:9092 | grep -Fx 'wiki'", returnStatus: true)
                     if (topicCreated == 0) {
@@ -42,32 +45,46 @@ pipeline {
 
                 // Wait a bit for data to start being produced (adjust based on expected startup time)
                 script {
-                    sleep 10  // Wait for 1 minute (adjust as necessary)
+                    sleep 10  // Wait for 10 seconds (adjust as necessary)
+                }
+
+                // Stop the producer script
+                script {
+                    sh "kill -TERM ${env.PRODUCER_PID}"
                 }
             }
         }
 
         stage('Run Consumer') {
             steps {
-                // Run the Python consumer script
-                sh 'python3 consumer.py'
-            }
+                // Run the Python consumer script in background and capture PID
+                script {
+                    def consumerProcess = sh(script: 'python3 consumer.py & echo $!', returnStdout: true).trim()
+                    env.CONSUMER_PID = consumerProcess
+                }
 
-            post {
-                success {
-                    // Verify OpenSearch index existence and state
-                    script {
-                        try {
-                            def response = sh(script: "curl -s -o /dev/null -w '%{http_code}' http://localhost:9200/wikimedia", returnStdout: true)
-                            if (response.trim() == "200") {
-                                echo 'OpenSearch index "wikimedia" is created and accessible.'
-                            } else {
-                                error 'Failed to verify OpenSearch index "wikimedia".'
-                            }
-                        } catch (Exception e) {
-                            error "Failed to execute HTTP request: ${e.message}"
+                // Wait for consumer to finish (adjust based on expected runtime)
+                script {
+                    sleep 40  // Wait for 60 seconds (adjust as necessary)
+                }
+
+                // Verify OpenSearch index existence and state
+                script {
+                    try {
+                        def response = sh(script: "curl -s -o /dev/null -w '%{http_code}' http://localhost:9200/wikimedia", returnStdout: true)
+                        if (response.trim() == "200") {
+                            echo 'OpenSearch index "wikimedia" is created and accessible.'
+                        } else {
+                            error 'Failed to verify OpenSearch index "wikimedia".'
                         }
+                    } catch (Exception e) {
+                        error "Failed to execute HTTP request: ${e.message}"
                     }
+                }
+
+                // Stop the consumer script
+                script {
+                    sh "kill -TERM ${env.CONSUMER_PID}"
                 }
             }
         }
