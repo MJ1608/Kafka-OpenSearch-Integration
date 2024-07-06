@@ -54,6 +54,8 @@ services:
     ports:
       - 9200:9200
       - 9600:9600 # required for Performance Analyzer
+    networks:
+      - kafka-opensearch-integration_default
 
   opensearch-dashboards:
     image: mj65/opensearch-dashboards:1.2.0
@@ -62,4 +64,9 @@ services:
     environment:
       OPENSEARCH_HOSTS: '["http://opensearch:9200"]'
       DISABLE_SECURITY_DASHBOARDS_PLUGIN: "true"
+    networks:
+      - kafka-opensearch-integration_default
 
+networks:
+  kafka-opensearch-integration_default:
+    driver: bridge

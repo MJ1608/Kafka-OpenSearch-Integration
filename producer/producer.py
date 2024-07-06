@@ -6,7 +6,7 @@ from confluent_kafka import Producer
 from event_handler import WikimediaChangeHandler
 
 # Configuration properties
-BOOTSTRAP_SERVERS = 'localhost:9092'
+BOOTSTRAP_SERVERS = 'kafka1:9093,kafka2:9095,kafka3:9097'  # Update bootstrap servers here
 TOPIC = 'wiki'
 URL = 'https://stream.wikimedia.org/v2/stream/recentchange'
 
