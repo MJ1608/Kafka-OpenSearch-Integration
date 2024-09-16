@@ -29,7 +29,7 @@ pipeline {
             steps {
                 // Run the Python producer script in background and capture PID
                 script {
-                    def producerProcess = sh(script: 'python3 producer.py & echo $!', returnStdout: true).trim()
+                    def producerProcess = sh(script: 'python3 producer/producer.py & echo $!', returnStdout: true).trim()
                     env.PRODUCER_PID = producerProcess
                 }
 
@@ -59,7 +59,7 @@ pipeline {
             steps {
                 // Run the Python consumer script in background and capture PID
                 script {
-                    def consumerProcess = sh(script: 'python3 consumer.py & echo $!', returnStdout: true).trim()
+                    def consumerProcess = sh(script: 'python3 consumer/consumer.py & echo $!', returnStdout: true).trim()
                     env.CONSUMER_PID = consumerProcess
                 }
 
